@@ -174,7 +174,8 @@ class PayItSimple_Payment_Model_PisMethod extends Mage_Payment_Model_Method_Cc
             'CardExpYear' => $payment->getCcExpYear(),
             'CardCvv' => $payment->getCcCid(),
             'InstallmentNumber' => $payment->getInstallmentsNo(),
-            'ParamX' => $order->getIncrementId()
+            'ParamX' => $order->getIncrementId(),
+			'CurrencyName' => Mage::app()->getStore()->getCurrentCurrencyCode()
         );
         $result = $api->createInstallmentPlan($params);
         $this->debugData('REQUEST: ' . $api->getRequest());

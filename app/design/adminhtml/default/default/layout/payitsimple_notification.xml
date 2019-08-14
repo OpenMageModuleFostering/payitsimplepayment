@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<layout>
-    <default>
-        <reference name="notifications">
-            <block type="pis_payment/adminhtml_system_config_notification" name="notification_sip" as="notification_sip"
-                   template="payitsimple/system/config/notification.phtml"/>
-        </reference>
-    </default>
-</layout>
