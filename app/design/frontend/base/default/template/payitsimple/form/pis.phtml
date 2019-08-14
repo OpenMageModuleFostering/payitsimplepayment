@@ -73,7 +73,7 @@
     <li>
         <input style="float: left; margin-right: 5px; margin-top: 2px;" type="checkbox" id="<?php echo $_code ?>_terms" name="payment[terms]" class="required-entry" value="1" />
         <label for="<?php echo $_code ?>_terms" class="required">
-            <em>*</em><?php echo $this->__('I acknowledge that I have read and agree to the %s terms and conditions %s','<a href="#" style="float:none; margin-left:0px;" onclick="popWin(\'' . $this->getUrl('payitsimple/payment/terms') . "', 'terms and conditions', 'width=800,height=607,left=0,top=0,location=no,status=no,scrollbars=yes,resizable=no'); return false;\">",'</a>') ?>
+            <em>*</em><?php echo $this->__('I acknowledge that I have read and agree to the %s terms and conditions %s','<a href="#" style="float:none; margin-left:0px;" onclick="popWin(\'' . 'http://www.payitsimple.com/legal/customers-terms-and-conditions/' . "', 'terms and conditions', 'width=750,height=607,left=0,top=0,location=no,status=no,scrollbars=yes,resizable=no'); return false;\">",'</a>') ?>
         </label>
     </li>
 <li>
