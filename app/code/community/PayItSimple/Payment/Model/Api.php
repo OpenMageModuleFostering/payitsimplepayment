@@ -105,7 +105,8 @@ class PayItSimple_Payment_Model_Api extends Mage_Core_Model_Abstract
             if (!isset($result['Result'])) {
                 throw new ErrorException('Unknown result from gateway.', self::ERROR_UNKNOWN_GW_RESULT_CODE);
             } elseif ($result['Result'] != 0) {
-                throw new ErrorException($this->getGatewayError((int)$result['Result']) . $result['ResponseStatus'], (int)$result['Result']);
+                //throw new ErrorException($this->getGatewayError((int)$result['Result']) . $result['ResponseStatus'], (int)$result['Result']);
+                throw new ErrorException($result['ResponseStatus']['Message']."\n(".$result['ErrorAdditionalInfo'].")", (int)$result['Result']);
             }
         } catch (Zend_Http_Client_Exception $e) {
             $this->setError(self::ERROR_HTTP_REQUEST, $e->getMessage());
@@ -189,26 +190,39 @@ class PayItSimple_Payment_Model_Api extends Mage_Core_Model_Abstract
         $errors = array(
             0 => 'The operation completed successfully',
             4 => 'The operation was denied',
-            501 => 'Invalid credentials',
-            502 => 'Invalid installment plan number',
-            503 => 'Invalid installment plan status',
-            504 => 'Invalid card type',
-            505 => 'Invalid number of installments',
-            506 => 'Invalid amount format',
-            508 => 'Invalid country code',
-            509 => 'Invalid response URL',
-            510 => 'Invalid cardholder name format',
-            511 => 'This amount is not allowed',
-            520 => 'Invalid CVV (3-4 numbers)',
-            521 => 'Invalid card number (8-20 numbers)',
-            522 => 'Invalid expiration date (m=1-12,y=current year or higher)',
-            523 => 'Invalid consumer full name (min 2 words + min 2 characters for each word)',
-            524 => 'Invalid email (email format)',
-            525 => 'Invalid address (2-50 characters)',
-            526 => 'Invalid ZIP code (2-9 characters)',
-            599 => 'General error',
+            501 => 'Invalid Credentials',
+            502 => 'Invalid Installment Plan Number',
+            503 => 'Invalid Installment Plan Status',
+            504 => 'Card type not supported',
+            505 => 'Invalid Number of Installments',
+            506 => 'Invalid Amount Format',
+            508 => 'Invalid Country Code',
+            509 => 'Invalid Response URL',
+            510 => 'Invalid Card holder Name',
+            511 => 'Invalid Amount',
+            520 => 'Invalid CVV',
+            521 => 'Invalid Card Number',
+            522 => 'Invalid Expiration Date ',
+            523 => 'Invalid Consumer Full Name ',
+            524 => 'Invalid Email Format',
+            525 => 'Invalid Address ',
+            526 => 'Invalid ZIP Code ',
+            527 => 'Card bin not supported ',
+            528 => 'Card issue country not supported',
+            599 => 'General Error Occurred',
+            600 => 'Gateway failed to process request',
+            601 => 'Invalid ZIP Code ',
+            602 => 'Invalid Address ',
+            603 => 'Invalid CVV',
+            604 => 'Invalid Expiration Date ',
+            606 => 'Invalid Address or Zip',
+            607 => 'Invalid card number',
+            608 => 'Problem with card',
+            609 => 'Insufficient funds',
+            610 => 'Credit card was declined',
+            630 => 'Failed to connect to gateway',
+            640 => 'Problem with merchant details on gateway',
         );
         return (is_null($code)) ? $errors : $errors[$code];
     }
-
 }

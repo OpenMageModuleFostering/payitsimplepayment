@@ -2,7 +2,7 @@
 <config>
     <modules>
         <PayItSimple_Payment>
-            <version>1.0.5</version>
+            <version>1.1.0</version>
         </PayItSimple_Payment>
     </modules>
     <frontend>
@@ -111,7 +111,7 @@
                 <sandbox_flag>0</sandbox_flag>
                 <debug>0</debug>
                 <cctypes>MC,VI</cctypes>
-                <allowspecific>1</allowspecific>
+                <allowspecific>0</allowspecific>
                 <specificcountry>US</specificcountry>
                 <centinel>0</centinel>
                 <useccv>1</useccv>
