@@ -66,7 +66,7 @@ class PayItSimple_Payment_Block_Adminhtml_Addresses extends Mage_Adminhtml_Block
          <tbody id="tier_price_container">
             <tr>
                <td>
-                From<br><label>'. $this->_getCurrencySymbol() .'</label> <input style="max-width:90%!important;" type="text" class="doctv_from" name="doctv_from" /><br>To<br><label>'. $this->_getCurrencySymbol() .'<input type="text" style="max-width:90%!important;" name="doctv_to" class="doctv_to" />
+                From<br><label>'. $this->_getFirstAvailableCurrencySymbol() .'</label> <input style="max-width:90%!important;" type="text" class="doctv_from" name="doctv_from" /><br>To<br><label>'. $this->_getFirstAvailableCurrencySymbol() .'<input type="text" style="max-width:90%!important;" name="doctv_to" class="doctv_to" />
                </td>
                <td>
                 <select id="" name="doctv_installments" class=" select multiselect doctv_installments" size="10" multiple="multiple">
@@ -83,10 +83,10 @@ class PayItSimple_Payment_Block_Adminhtml_Addresses extends Mage_Adminhtml_Block
                   <option value="12">12 Installments</option>
                   </select>
                </td>
-               <td>'.
-                /*<select id="" name="doctv_currency" class=" select doctv_currency">
-                  '.$this->_getCurrencies().'*/
-                 $this->_getBaseCurrency().' 
+               <td>
+                <select id="" name="doctv_currency" class=" select doctv_currency">
+                  '.$this->_getCurrencies().'
+                 
                </td>
                <td>
                 <button title="Delete Tier" type="button" class="scalable delete icon-btn delete-product-option" id="" onclick="deleteRow(this);"><span><span><span>Delete</span></span></span></button>
@@ -107,6 +107,7 @@ class PayItSimple_Payment_Block_Adminhtml_Addresses extends Mage_Adminhtml_Block
    protected function getTableHtmlWhenNotEmpty($doctv)
    {
       $doctv = json_decode($doctv);
+      $currencySymbolsArray = json_decode($this->_getAvailableCurrencySymbolsArray(),true);
 
       $html = '<table class="data border splitit" id="tiers_table" cellspacing="0" border="1">
       <div class="tiers_table_overlay"></div>
@@ -129,7 +130,7 @@ class PayItSimple_Payment_Block_Adminhtml_Addresses extends Mage_Adminhtml_Block
       $rowHtml = "";   
       foreach ($doctv as $key => $value) {
         $rowHtml .= '<tr>';
-        $rowHtml .= '<td> From<br><label>'. $this->_getCurrencySymbol() .'</label> <input type="text" style="max-width:90%!important;" class="doctv_from" name="doctv_from" value="'.$value->doctv->from.'" /><br>To<br><label>'. $this->_getCurrencySymbol() .'</label> <input type="text" style="max-width:90%!important;" name="doctv_to" class="doctv_to" value="'.$value->doctv->to.'"/> </td>';
+        $rowHtml .= '<td> From<br><label>'. $currencySymbolsArray[$value->doctv->currency] .'</label> <input type="text" style="max-width:90%!important;" class="doctv_from" name="doctv_from" value="'.$value->doctv->from.'" /><br>To<br><label>'. $currencySymbolsArray[$value->doctv->currency] .'</label> <input type="text" style="max-width:90%!important;" name="doctv_to" class="doctv_to" value="'.$value->doctv->to.'"/> </td>';
         $rowHtml .= '<td>
                 <select id="" name="doctv_installments" class=" select multiselect doctv_installments" size="10" multiple="multiple">';
         $i = 2;
@@ -145,13 +146,12 @@ class PayItSimple_Payment_Block_Adminhtml_Addresses extends Mage_Adminhtml_Block
         } 
         $rowHtml .= '</select></td>';          
                   
-                  
                
-        /*$rowHtml .= '<td>
+        $rowHtml .= '<td>
                 <select id="" name="doctv_currency" class=" select doctv_currency">
                   '.$this->_getSelectedCurrency($value->doctv->currency).'
-               </td>';  */
-        $rowHtml .= '<td>'.$this->_getBaseCurrency().'</td>';         
+               </td>';
+        //$rowHtml .= '<td>'.$this->_getBaseCurrency().'</td>';         
         $rowHtml .= '<td>
                 <button title="Delete Tier" type="button" class="scalable delete icon-btn delete-product-option" id="" onclick="deleteRow(this);"><span><span><span>Delete</span></span></span></button>
                </td>
@@ -233,6 +233,26 @@ class PayItSimple_Payment_Block_Adminhtml_Addresses extends Mage_Adminhtml_Block
    protected function _getCurrencySymbol(){
     return Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
    }
+
+   protected function _getAvailableCurrencySymbolsArray(){
+      $codes = Mage::app()->getStore()->getAvailableCurrencyCodes(true);
+      $currencySymbolsArray = [];
+      foreach ($codes as $key => $value) {
+        $currencySymbolsArray[$value] = Mage::app()->getLocale()->currency($value)->getSymbol();
+      }
+      return json_encode($currencySymbolsArray);
+   }
+
+   protected function _getFirstAvailableCurrencySymbol(){
+      $codes = Mage::app()->getStore()->getAvailableCurrencyCodes(true);
+      $firstCurrencySymbol = [];
+      foreach ($codes as $key => $value) {
+        $firstCurrencySymbol = Mage::app()->getLocale()->currency($value)->getSymbol();
+        break;
+      }
+      return $firstCurrencySymbol;
+   }
+
  
    
 }

@@ -10,8 +10,9 @@
 
 
 <script type="text/javascript">
-//var currenyOptions = '<?php //echo $currenyOptions = $this->_getCurrencies(); ?>';
-var currenyOptions = '<?php echo $currenyOptions = $this->_getBaseCurrency(); ?>';
+var currenyOptions = '<?php echo $currenyOptions = $this->_getCurrencies(); ?>';
+/*var currenyOptions = '<?php echo $currenyOptions = $this->_getBaseCurrency(); ?>';*/
+var currencySymbolsArray = <?php echo $this->_getAvailableCurrencySymbolsArray(); ?>;
 
 jQuery(document).ready(function(){
     if(jQuery('#payment_pis_cc-head').length > 0){
@@ -44,6 +45,8 @@ jQuery(document).ready(function(){
         
         var doctv_from = parseFloat(jQuery(this).find(".doctv_from").val());
         var doctv_to = parseFloat(jQuery(this).find(".doctv_to").val());
+        var doctv_currency = jQuery(this).find(".doctv_currency").val();
+
         jQuery(this).find(".doctv_from").css("border","1px solid #ccc");
         jQuery(this).find(".doctv_to").css("border","1px solid #ccc");
         jQuery(this).find("select.doctv_installments").css("border","1px solid #ccc");
@@ -82,12 +85,17 @@ jQuery(document).ready(function(){
         }
 
         //  validation that there are no overlaps with the periods
-        fromToArr[i] = {};
-        fromToArr[i]["from"] = doctv_from;
-        fromToArr[i]["to"] = doctv_to;
-        if(flag1 == 0 && Object.keys(fromToArr).length > 1){
-          for(var j=0; j<Object.keys(fromToArr).length-1; j++){
-            if((doctv_from >= fromToArr[j]["from"] && doctv_from <= fromToArr[j]["to"]) || (doctv_to >= fromToArr[j]["from"] && doctv_to <= fromToArr[j]["to"]) ){
+        if (!fromToArr.hasOwnProperty(doctv_currency)) {
+          fromToArr[doctv_currency] = {};  
+        }
+        var countObj = Object.keys(fromToArr[doctv_currency]).length;
+        fromToArr[doctv_currency][countObj] = {};
+        fromToArr[doctv_currency][countObj]["from"] = doctv_from;
+        fromToArr[doctv_currency][countObj]["to"] = doctv_to;
+        fromToArr[doctv_currency][countObj]["currency"] = doctv_currency;
+        if(flag1 == 0 && Object.keys(fromToArr[doctv_currency]).length > 1){
+          for(var j=0; j<Object.keys(fromToArr[doctv_currency]).length-1; j++){
+             if(((doctv_from >= fromToArr[doctv_currency][j]["from"] && doctv_from <= fromToArr[doctv_currency][j]["to"]) || (doctv_to >= fromToArr[doctv_currency][j]["from"] && doctv_to <= fromToArr[doctv_currency][j]["to"])) && doctv_currency == fromToArr[doctv_currency][j]["currency"]){
               console.log("forrrr");
               jQuery(this).find(".doctv_from").css("border","1px solid red");
               jQuery(this).find(".doctv_to").css("border","1px solid red");
@@ -95,12 +103,12 @@ jQuery(document).ready(function(){
               overlaps++;
             }
             // check if there is gap between previous to and next from
-            if((fromToArr[j]["to"]+1) != fromToArr[j+1]["from"]){
+            if(((fromToArr[doctv_currency][j]["to"]+1) != fromToArr[doctv_currency][j+1]["from"]) && doctv_currency == fromToArr[doctv_currency][j]["currency"]){
               jQuery(this).find(".doctv_from").css("border","1px solid red");
               jQuery(this).find(".doctv_to").css("border","1px solid red");
               flag1++;
               hasGap++;  
-            }  
+            } 
           }
         }
 
@@ -113,7 +121,7 @@ jQuery(document).ready(function(){
           fromBigger++;
         }
 
-        });
+        });//console.log(fromToArr);return;
       }
 
       // 
@@ -134,13 +142,13 @@ jQuery(document).ready(function(){
           alert("From amount should be lesser than To.");
         }
         else if(overlaps){
-          alert("From and To amount should not Overlap");
+          alert("From and To amount should not Overlap as per Currency");
         }
         else if(percentageFlag){
           jQuery("#payment_pis_cc_percentage_of_order").css("border","1px solid red");
           alert("Please enter Percentage of order % <= 50");
         }else if(hasGap){
-          alert("There should not be Gap between To and From amounts.");
+          alert("There should not be Gap between To and From amounts as per Currency.");
         }else{
           alert('Please fill the required fields in Splitit section "Depending on cart total"');  
         }
@@ -200,10 +208,10 @@ count = "";
             +'</select>'
          +'</td>'
          +'<td>'
-          /*+'<select id="" class="doctv_currency" name="doctv_currency" class=" select">'
+          +'<select id="" class="doctv_currency" name="doctv_currency" class=" select">'
             +currenyOptions+
-           +'</select>'*/
-           +currenyOptions
+           +'</select>'
+           /*+currenyOptions*/
          +'</td>'
          +'<td>'
           +'<button title="Delete Tier" type="button" class="scalable delete icon-btn delete-product-option" id="" onclick="deleteRow(this);"><span><span><span>Delete</span></span></span></button>'

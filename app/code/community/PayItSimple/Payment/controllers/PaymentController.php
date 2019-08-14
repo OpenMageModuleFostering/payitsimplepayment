@@ -140,9 +140,9 @@ class PayItSimple_Payment_PaymentController extends Mage_Core_Controller_Front_A
 
         if ($splititSessionId != ""){
             $result = Mage::getSingleton("pis_payment/pisMethod")->installmentplaninit($api, $selectedInstallment);
+            $response["data"] = $result["data"];
             if($result["status"]){
                 $response["status"] = true;
-                $response["data"] = $result["data"];
             }
             if(isset($result["emptyFields"]) && $result["emptyFields"]){
                 $response["data"] = $result["data"];    
