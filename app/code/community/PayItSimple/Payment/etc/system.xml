@@ -209,8 +209,8 @@
                             <!-- <backend_model>adminhtml/system_config_backend_serialized</backend_model> -->
                             <sort_order>112</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                             <can_be_empty>1</can_be_empty>
                         </addresses>
                         <depanding_on_cart_total_values translate="label">
@@ -218,8 +218,8 @@
                             <frontend_type>hidden</frontend_type>
                             <sort_order>114</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </depanding_on_cart_total_values>
                         
                         <installment_price_setup_label translate="label">

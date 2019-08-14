@@ -19,7 +19,7 @@ jQuery(document).ready(function(){
      jQuery('.save').attr('onclick','');
     }
     jQuery(".splitit").closest("td.value").addClass("grid");
-    row_payment_pis_cc_depanding_on_cart_total_values
+    //row_payment_pis_cc_depanding_on_cart_total_values
     jQuery("#row_payment_pis_cc_depanding_on_cart_total_values").find("td.scope-label").hide();
 
     jQuery(document).on("mousedown", ".save", function(event) {
@@ -248,6 +248,7 @@ function createJsonOfDependingOnCartTotal(){
         i++;      
     });
     object = JSON.stringify(object);
+    console.log(object);
     jQuery("#payment_pis_cc_depanding_on_cart_total_values").val(object);
 
 }

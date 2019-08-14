@@ -131,6 +131,7 @@ function paymentSave(){
     	// check term checkbox which is hidden
     	jQuery(".terms-conditions div").remove();
 		jQuery('#pis_cc_terms').prop('checked', true);
+		jQuery('#one-step-checkout-review-terms-agreement-mc_osc_term').prop('checked', true);
 		jQuery("#approval-popup").hide();	
     }else{
     	jQuery(".i_ack_err").show();
