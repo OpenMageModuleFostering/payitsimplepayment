@@ -56,7 +56,7 @@ class PayItSimple_Payment_Block_Adminhtml_System_Config_Form_Button extends Mage
             ->setData(array(
             'id'        => 'payitsimple_button',
             'label'     => $this->helper('adminhtml')->__('Check Settings'),
-            'onclick'   => 'javascript:checkPis(); return false;'
+            'onclick'   => 'javascript:checkSip(); return false;'
         ));
 
         return $button->toHtml();

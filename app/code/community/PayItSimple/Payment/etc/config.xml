@@ -2,7 +2,7 @@
 <config>
     <modules>
         <PayItSimple_Payment>
-            <version>1.1.0</version>
+            <version>2.0.0</version>
         </PayItSimple_Payment>
     </modules>
     <frontend>
@@ -106,8 +106,8 @@
                 <title>Pay with INTEREST FREE installments</title>
                 <faq_link_enabled>1</faq_link_enabled>
                 <faq_link_title>Tell me more</faq_link_title>
-                <api_url>https://web-api.payitsimple.com/</api_url>
-                <api_url_sandbox>https://web-api-sandbox.payitsimple.com/</api_url_sandbox>
+                <api_url>https://web-api.splitit.com/</api_url>
+                <api_url_sandbox>https://web-api-sandbox.splitit.com/</api_url_sandbox>
                 <sandbox_flag>0</sandbox_flag>
                 <debug>0</debug>
                 <cctypes>MC,VI</cctypes>
