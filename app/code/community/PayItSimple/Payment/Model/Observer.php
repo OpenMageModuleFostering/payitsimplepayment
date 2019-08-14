@@ -42,6 +42,12 @@ class PayItSimple_Payment_Model_Observer
         $options = Mage::getModel('pis_payment/source_installments')->toOptionArray();
         
         $depandOnCart = 0;
+        // check if splitit extension is disable from admin
+        $isDisabled = Mage::getStoreConfig('payment/pis_cc/active');
+        if(!$isDisabled){
+            return false;
+        }
+
         // $selectInstallmentSetup == "" for checking when merchant first time upgrade extension that time $selectInstallmentSetup will be empty
         if($selectInstallmentSetup == "" || $selectInstallmentSetup == "fixed"){ // Select Fixed installment setup
             
