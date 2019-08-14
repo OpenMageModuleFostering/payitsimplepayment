@@ -22,6 +22,26 @@
                 </payitsimple>
             </updates>
         </layout>
+        <events>
+            <core_block_abstract_to_html_before>
+                <observers>
+                    <sip_payment_splitprice>
+                        <type>model</type>
+                        <class>pis_payment/observer</class>
+                        <method>insertBlock</method>
+                    </sip_payment_splitprice>
+                </observers>
+            </core_block_abstract_to_html_before>
+            <payment_method_is_active>
+                <observers>
+                    <sip_payment_payment_method_is_active>
+                        <type>singleton</type>
+                        <class>pis_payment/observer</class>
+                        <method>paymentMethodIsActive</method>
+                    </sip_payment_payment_method_is_active>
+                </observers>
+            </payment_method_is_active>
+        </events>
     </frontend>
     <admin>
         <routers>
@@ -52,6 +72,7 @@
             </sales_convert_quote_payment>
         </fieldsets>
         <models>
+            
             <pis_payment>
                 <class>PayItSimple_Payment_Model</class>
                 <resourceModel>pis_payment_mysql4</resourceModel>
@@ -103,7 +124,7 @@
                 <model>pis_payment/pisMethod</model>
                 <order_status>processing</order_status>
                 <payment_action>authorize</payment_action>
-                <title>Pay with INTEREST FREE installments</title>
+                <title>Monthly payments - 0% Interest</title>
                 <faq_link_enabled>1</faq_link_enabled>
                 <faq_link_title>Tell me more</faq_link_title>
                 <api_url>https://web-api.splitit.com/</api_url>
@@ -116,6 +137,7 @@
                 <centinel>0</centinel>
                 <useccv>1</useccv>
                 <centinel_is_mode_strict>0</centinel_is_mode_strict>
+                <installment_price_text>No interest</installment_price_text>
             </pis_cc>
         </payment>
     </default>

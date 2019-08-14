@@ -1,0 +1,247 @@
+<style type="text/css">
+    table.splitit td{ max-width: 120px; padding:0 8px; }
+    table.splitit td input, table.splitit td select{max-width: 100%; min-width: initial;}
+    #row_payment_pis_cc_addresses td.grid,
+    #row_payment_pis_cc_available_installments td.value{position: relative;}
+    .tiers_table_overlay,
+    .tiers_table_overlay2{position: absolute; width:100%; height: 100%; top: 0; left: 0; background: rgba(255,255,255,0.8); z-index: 999; display: none;}
+    #payment_pis_cc_available_installments + .tiers_table_overlay2 {display: block;}
+</style>
+
+
+<script type="text/javascript">
+//var currenyOptions = '<?php //echo $currenyOptions = $this->_getCurrencies(); ?>';
+var currenyOptions = '<?php echo $currenyOptions = $this->_getBaseCurrency(); ?>';
+
+jQuery(document).ready(function(){
+    if(jQuery('#payment_pis_cc-head').length > 0){
+     jQuery('.save').attr('onclick','');
+    }
+    jQuery(".splitit").closest("td.value").addClass("grid");
+    row_payment_pis_cc_depanding_on_cart_total_values
+    jQuery("#row_payment_pis_cc_depanding_on_cart_total_values").find("td.scope-label").hide();
+
+    jQuery(document).on("mousedown", ".save", function(event) {
+      var flag1 = 0;
+      var flag2 = 0;
+      var percentageFlag = 0;
+      var overlaps = 0;
+      var fromBigger = 0;
+      var hasGap = 0;
+    
+      // validation for depanding on cart
+      // $(this).unbind('click');
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      //alert('Please fill the required fields in Splitit section "Depending on cart total"');
+      jQuery("#payment_pis_cc_percentage_of_order").css("border","1px solid #ccc");
+      if(jQuery('#payment_pis_cc_select_installment_setup').val() == 'depending_on_cart_total'){
+        var fromToArr = {};
+        var i=0;
+        jQuery("#tier_price_container tr").each(function(){
+        
+        
+        var doctv_from = parseFloat(jQuery(this).find(".doctv_from").val());
+        var doctv_to = parseFloat(jQuery(this).find(".doctv_to").val());
+        jQuery(this).find(".doctv_from").css("border","1px solid #ccc");
+        jQuery(this).find(".doctv_to").css("border","1px solid #ccc");
+        jQuery(this).find("select.doctv_installments").css("border","1px solid #ccc");
+        // validation for installments
+        var installmentsCount = jQuery(this).find("select.doctv_installments  :selected").length;
+        if(installmentsCount == 0){
+          jQuery(this).find("select.doctv_installments").css("border-color","red");
+          flag1++;
+           //return false;
+        }
+        // validation for from and to amount
+        if((doctv_from == "" || isNaN(doctv_from)) && (doctv_to == "" || isNaN(doctv_to))){
+          // all empty and string
+          jQuery(this).find(".doctv_from").css("border","1px solid red");
+          jQuery(this).find(".doctv_to").css("border","1px solid red");
+          flag1++;
+           //return false;
+          
+          
+        }else if(doctv_from != "" || isNaN(doctv_from)){
+          if( doctv_to == "" || isNaN(doctv_to)){
+            // check from less than 1000 and to is empty
+            if(doctv_from < 1000){
+              jQuery(this).find(".doctv_to").css("border","1px solid red");
+              flag1++;
+               //return false;
+            }
+          }
+          if(doctv_from == "" || isNaN(doctv_from)){
+              // when from empty
+              jQuery(this).find(".doctv_from").css("border"," 1px solid red");
+              flag1++;
+              //return false;
+          } 
+          
+        }
+
+        //  validation that there are no overlaps with the periods
+        fromToArr[i] = {};
+        fromToArr[i]["from"] = doctv_from;
+        fromToArr[i]["to"] = doctv_to;
+        if(flag1 == 0 && Object.keys(fromToArr).length > 1){
+          for(var j=0; j<Object.keys(fromToArr).length-1; j++){
+            if((doctv_from >= fromToArr[j]["from"] && doctv_from <= fromToArr[j]["to"]) || (doctv_to >= fromToArr[j]["from"] && doctv_to <= fromToArr[j]["to"]) ){
+              console.log("forrrr");
+              jQuery(this).find(".doctv_from").css("border","1px solid red");
+              jQuery(this).find(".doctv_to").css("border","1px solid red");
+              flag1++;
+              overlaps++;
+            }
+            // check if there is gap between previous to and next from
+            if((fromToArr[j]["to"]+1) != fromToArr[j+1]["from"]){
+              jQuery(this).find(".doctv_from").css("border","1px solid red");
+              jQuery(this).find(".doctv_to").css("border","1px solid red");
+              flag1++;
+              hasGap++;  
+            }  
+          }
+        }
+
+        i++;
+
+        // check if from is bigger than to
+        if(doctv_from > doctv_to){
+          jQuery(this).find(".doctv_from").css("border","1px solid red");
+          jQuery(this).find(".doctv_to").css("border","1px solid red");  
+          fromBigger++;
+        }
+
+        });
+      }
+
+      // 
+      if(jQuery("select#payment_pis_cc_first_payment").val() == "percentage"){
+        var percentageOfOrder = jQuery("#payment_pis_cc_percentage_of_order").val();
+        if(percentageOfOrder > 50 ){
+          percentageFlag++; 
+          flag1++; 
+        }
+        
+      }
+      if(flag1 == 0){
+        
+        createJsonOfDependingOnCartTotal();
+        eval(configForm.submit());
+      }else{
+        if(fromBigger){
+          alert("From amount should be lesser than To.");
+        }
+        else if(overlaps){
+          alert("From and To amount should not Overlap");
+        }
+        else if(percentageFlag){
+          jQuery("#payment_pis_cc_percentage_of_order").css("border","1px solid red");
+          alert("Please enter Percentage of order % <= 50");
+        }else if(hasGap){
+          alert("There should not be Gap between To and From amounts.");
+        }else{
+          alert('Please fill the required fields in Splitit section "Depending on cart total"');  
+        }
+        
+         return false;
+      }
+       
+
+    });
+
+    // show overlay for depending on the cart and fixed installment
+    jQuery("#payment_pis_cc_available_installments").closest("td").append("<div class='tiers_table_overlay2'></div>");
+
+    var checkDefaulOption =  jQuery("#payment_pis_cc_select_installment_setup").val();
+    if(checkDefaulOption == 'fixed'){         
+        jQuery("#payment_pis_cc_available_installments").closest("td").find(".tiers_table_overlay2").hide();
+            jQuery("#tiers_table").closest("td").find(".tiers_table_overlay").show();
+        }else{ 
+            jQuery("#payment_pis_cc_available_installments").closest("td").find(".tiers_table_overlay2").show();
+            jQuery("#tiers_table").closest("td").find(".tiers_table_overlay").hide();
+        }
+
+    jQuery("#payment_pis_cc_select_installment_setup").on("change", function(){
+        var checkOption = jQuery(this).val();
+        if(checkOption == 'fixed'){
+            jQuery("#payment_pis_cc_available_installments").closest("td").find(".tiers_table_overlay2").hide();
+            jQuery("#tiers_table").closest("td").find(".tiers_table_overlay").show();
+        }else{
+            jQuery("#payment_pis_cc_available_installments").closest("td").find(".tiers_table_overlay2").show();
+            jQuery("#tiers_table").closest("td").find(".tiers_table_overlay").hide();            
+        }
+    })
+});
+   
+
+function addRow(){
+
+    var count = jQuery("table.splitit").find("tbody").find("tr").length;
+count = "";
+    var appendRow = '<tr>'
+         +'<td>'
+          +'From<br><input type="text" class="doctv_from" name="doctv_from" /><br>To<br><input type="text" class="doctv_to" name="doctv_to" />'
+         +'</td>'
+         +'<td>'
+          +'<select id="doctv_installments" name="doctv_installments" class=" select multiselect doctv_installments" size="10" multiple="multiple">'
+            +'<option value="2">2 Installments</option>'
+            +'<option value="3">3 Installments</option>'
+            +'<option value="4">4 Installments</option>'
+            +'<option value="5">5 Installments</option>'
+            +'<option value="6">6 Installments</option>'
+            +'<option value="7">7 Installments</option>'
+            +'<option value="8">8 Installments</option>'
+            +'<option value="9">9 Installments</option>'
+            +'<option value="10">10 Installments</option>'
+            +'<option value="11">11 Installments</option>'
+            +'<option value="12">12 Installments</option>'
+            +'</select>'
+         +'</td>'
+         +'<td>'
+          /*+'<select id="" class="doctv_currency" name="doctv_currency" class=" select">'
+            +currenyOptions+
+           +'</select>'*/
+           +currenyOptions
+         +'</td>'
+         +'<td>'
+          +'<button title="Delete Tier" type="button" class="scalable delete icon-btn delete-product-option" id="" onclick="deleteRow(this);"><span><span><span>Delete</span></span></span></button>'
+         +'</td>'
+      +'</tr>';
+    jQuery("table.splitit tbody").append(appendRow);
+    
+
+}
+function deleteRow(curObj){
+    var count = jQuery(curObj).closest("tbody").find("tr").length;
+    if(count > 1){
+        jQuery(curObj).closest("tr").remove();    
+    }
+    
+} 
+function createJsonOfDependingOnCartTotal(){
+     var i = 0;
+     var object = {};
+
+     jQuery("table.splitit tbody").find('tr').each(function() {
+        var $this = jQuery(this);
+        var installments = [];
+        object[i] = {};
+        object[i]["doctv"] = {};
+        object[i]["doctv"]["from"] = $this.find("td:first-child").find("input.doctv_from").val();
+        object[i]["doctv"]["to"] = $this.find("td:first-child").find("input.doctv_to").val(); 
+        $this.find("td:nth-child(2)").find(".doctv_installments :selected").each(function(i, selected){ 
+           installments.push(jQuery(selected).val());
+        });
+        object[i]["doctv"]["installments"] = installments.toString();
+        object[i]["doctv"]["currency"] = $this.find("td:nth-child(3)").find(".doctv_currency").val();
+       
+        i++;      
+    });
+    object = JSON.stringify(object);
+    jQuery("#payment_pis_cc_depanding_on_cart_total_values").val(object);
+
+}
+
+</script>

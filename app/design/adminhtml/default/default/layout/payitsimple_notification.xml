@@ -6,4 +6,15 @@
                    template="payitsimple/system/config/notification.phtml"/>
         </reference>
     </default>
+    <default>
+        <reference name="addresses">
+            <block type="pis_payment/adminhtml_addresses" name="notification_sip" as="notification_sip"
+                   template="payitsimple/system/config/addresses.phtml"/>
+        </reference>
+    </default>
+    <adminhtml_system_config_edit>
+	   <reference name="head">
+	   		  <action method="addJs"><file>payitsimple/jquery-1.12.4.js</file></action>
+	   </reference> 
+	</adminhtml_system_config_edit>
 </layout>

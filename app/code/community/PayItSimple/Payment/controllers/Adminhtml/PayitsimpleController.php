@@ -15,7 +15,8 @@ class PayItSimple_Payment_Adminhtml_PayitsimpleController extends Mage_Adminhtml
         $params = array(
             'ApiKey' => $paymentMethod->getConfigData('api_terminal_key', $storeId),
             'UserName' => $paymentMethod->getConfigData('api_username'),
-            'Password' => $paymentMethod->getConfigData('api_password')
+            'Password' => $paymentMethod->getConfigData('api_password'),
+            'TouchPoint'=>array("Code" => "MagentoPlugin","Version" => "2.0")
         );
         $result = $api->login($paymentMethod->getApiUrl(), $params);
         $paymentMethod->debugData('REQUEST: ' . $api->getRequest());

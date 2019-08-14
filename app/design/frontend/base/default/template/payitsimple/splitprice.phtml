@@ -1,0 +1,49 @@
+<style type="text/css">
+	.cart-collaterals .cart-installment{text-align: right!important;display: block;margin-right: 15px;}
+</style>
+<div class="sip_splitprice">
+<?php  
+	$current_url = $this->helper('core/url')->getCurrentUrl();
+	if(stripos($current_url, 'checkout')){
+		$current_page = 'checkout';
+	}
+	if (Mage::registry('current_category')){
+	  // category page
+		$current_page = 'category';
+	}
+	if(Mage::registry('current_product')) {
+	  // Product detail page
+		$current_page = 'product';
+	}
+	$allowed_page = explode(",",Mage::getStoreConfig('payment/pis_cc/installment_price_on_pages'));
+	$divider = Mage::getStoreConfig('payment/pis_cc/installments_count');
+	$text = Mage::getStoreConfig('payment/pis_cc/installment_price_text');
+
+
+	if(Mage::getStoreConfig('payment/pis_cc/enable_installment_price')==1 && in_array($current_page, $allowed_page)){
+		if($current_page == "cart" || $current_page=="checkout"){
+			$segment = ROUND((float)Mage::getSingleton('checkout/cart')->getQuote()->getGrandTotal() / $divider,2);
+			echo $this->getChildHtml('child');
+		}else{
+			if($current_page == 'category'){
+				$_product = $this->getProduct();
+				$segment = ROUND((float)$_product->getFinalPrice() / $divider,2);
+				echo $this->getChildHtml('child'.$this->getProduct()->getId());
+			}
+			if($current_page == 'product'){
+				$_product = $this->getProduct();
+				$segment = ROUND((float)$_product->getFinalPrice() / $divider,2);
+				echo $this->getChildHtml('child'.$this->getProduct()->getId());	
+			}
+			
+		}
+		echo "<span class='cart-installment' >$".$segment." x ".$divider." ".$text."</span>"; 	
+	} else {
+		if($current_page == "cart" || $current_page=="checkout"){
+			echo $this->getChildHtml('child');
+		}else{
+			echo $this->getChildHtml('child'.$this->getProduct()->getId());
+		}
+	}
+?>
+</div>
