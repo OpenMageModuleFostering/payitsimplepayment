@@ -1,0 +1,82 @@
+<?php $_code=$this->getMethodCode() ?>
+<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+    <li>
+        <label for="<?php echo $_code ?>_cc_type" class="required"><em>*</em><?php echo $this->__('Credit Card Type') ?></label>
+        <div class="input-box">
+            <select id="<?php echo $_code ?>_cc_type" name="payment[cc_type]" class="required-entry validate-cc-type-select">
+                <option value=""><?php echo $this->__('--Please Select--')?></option>
+            <?php $_ccType = $this->getInfoData('cc_type') ?>
+            <?php foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName): ?>
+                <option value="<?php echo $_typeCode ?>"<?php if($_typeCode==$_ccType): ?> selected="selected"<?php endif ?>><?php echo $_typeName ?></option>
+            <?php endforeach ?>
+            </select>
+        </div>
+    </li>
+    <!--li class="centinel-logos" id="<?php echo $this->getCode() ?>_centinel_logo">
+        <label><?php echo $this->__('To ensure the security of your transactions') ?></label>
+        <div class="input-box">
+            <a href="#" title="<?php echo $this->__('Verified by Visa') ?> " onclick="popWin('<?php echo $this->helper('centinel')->getVisaLearnMorePageUrl()?>', 'verifiedByVisa', 'width=815,height=600,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $this->getSkinUrl('images/centinel/vbv_ltbg_71x57.png'); ?>" alt="<?php echo $this->__('Verified by Visa') ?>" /></a>
+            <a href="#" title="<?php echo $this->__('MasterCard SecureCode'); ?>" onclick="popWin('<?php echo $this->helper('centinel')->getMastercardLearnMorePageUrl()?>', 'secureCode', 'width=600,height=403,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $this->getSkinUrl('images/centinel/sc_learn_62x34.png'); ?>" alt="<?php echo $this->__('MasterCard SecureCode') ?>" /></a>
+        </div>
+    </li-->
+    <li>
+        <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
+        <div class="input-box">
+            <input type="text" id="<?php echo $_code ?>_cc_number" name="payment[cc_number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text validate-cc-number validate-cc-type" value="" />
+        </div>
+    </li>
+    <li id="<?php echo $_code ?>_cc_type_exp_div">
+        <label for="<?php echo $_code ?>_expiration" class="required"><em>*</em><?php echo $this->__('Expiration Date') ?></label>
+        <div class="input-box">
+            <div class="v-fix">
+                <select id="<?php echo $_code ?>_expiration" name="payment[cc_exp_month]" class="month validate-cc-exp required-entry">
+                <?php $_ccExpMonth = $this->getInfoData('cc_exp_month') ?>
+                <?php foreach ($this->getCcMonths() as $k=>$v): ?>
+                    <option value="<?php echo $k?$k:'' ?>"<?php if($k==$_ccExpMonth): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                <?php endforeach ?>
+                </select>
+            </div>
+            <div class="v-fix">
+                <?php $_ccExpYear = $this->getInfoData('cc_exp_year') ?>
+                <select id="<?php echo $_code ?>_expiration_yr" name="payment[cc_exp_year]" class="year required-entry">
+                <?php foreach ($this->getCcYears() as $k=>$v): ?>
+                    <option value="<?php echo $k?$k:'' ?>"<?php if($k==$_ccExpYear): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                <?php endforeach ?>
+                </select>
+            </div>
+        </div>
+    </li>
+    <?php echo $this->getChildHtml() ?>
+    <?php if($this->hasVerification()): ?>
+    <li id="<?php echo $_code ?>_cc_type_cvv_div">
+        <label for="<?php echo $_code ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
+        <div class="input-box">
+            <div class="v-fix">
+                <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv required-entry validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" name="payment[cc_cid]" value="" />
+            </div>
+            <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
+        </div>
+    </li>
+    <?php endif; ?>
+    <li>
+        <label for="<?php echo $_code ?>_installments_no" class="required"><em>*</em><?php echo $this->__('Number of Installments ') ?></label>
+        <div class="input-box">
+            <select id="<?php echo $_code ?>_installments_no" name="payment[installments_no]" class="required-entry">
+                <option value=""><?php echo $this->__('--Please Select--')?></option>
+            <?php $_iNo = $this->getInfoData('installments_no') ?>
+            <?php foreach ($this->getAvailableInstallments() as $_num => $_typeName): ?>
+                <option value="<?php echo $_num ?>"<?php if($_num==$_iNo): ?> selected="selected"<?php endif ?>><?php echo $_typeName ?></option>
+            <?php endforeach ?>
+            </select>
+        </div>
+    </li>
+    <li>
+        <input style="float: left; margin-right: 5px; margin-top: 2px;" type="checkbox" id="<?php echo $_code ?>_terms" name="payment[terms]" class="required-entry" value="1" />
+        <label for="<?php echo $_code ?>_terms" class="required">
+            <em>*</em><?php echo $this->__('I acknowledge that I have read and agree to the %s terms and conditions %s','<a href="#" style="float:none; margin-left:0px;" onclick="popWin(\'' . $this->getUrl('payitsimple/payment/terms') . "', 'terms and conditions', 'width=800,height=607,left=0,top=0,location=no,status=no,scrollbars=yes,resizable=no'); return false;\">",'</a>') ?>
+        </label>
+    </li>
+<li>
+    <img src="data:image/png;base64,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"/>
+</li>
+</ul>

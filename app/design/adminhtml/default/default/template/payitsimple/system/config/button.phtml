@@ -1,0 +1,14 @@
+<script type="text/javascript">
+    //<![CDATA[
+    function checkPis() {
+        new Ajax.Request('<?php echo $this->getAjaxCheckUrl() ?>', {
+            method:     'get',
+            onSuccess: function(transport){
+                alert(transport.responseText)
+            }
+        });
+    }
+    //]]>
+</script>
+
+<?php echo $this->getButtonHtml() ?>

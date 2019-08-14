@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <payitsimple_payment_help>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+            <action method="setIsHandle">
+                <applied>1</applied>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="payitsimple.help" template="payitsimple/help.phtml" />
+        </reference>
+    </payitsimple_payment_help>
+    <payitsimple_payment_terms>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+            <action method="setIsHandle">
+                <applied>1</applied>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="payitsimple.terms" template="payitsimple/terms.phtml" />
+        </reference>
+    </payitsimple_payment_terms>
+</layout>

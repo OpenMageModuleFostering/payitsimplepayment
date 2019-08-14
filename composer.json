@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/payitsimplepayment",
+    "type": "magento-module",
+    "license": "OSL",
+    "homepage": "",
+    "description": "Offer your customers interest-free credit card installment payments. Official extension.",
+    "authors": [
+    {
+        "name": "Eric Benayoun",
+        "email": "ericb@payitsimple.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

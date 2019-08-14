@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+    <name>payitsimplepayment</name>
+    <version>1.0.3</version>
+    <stability>stable</stability>
+    <license uri="http://opensource.org/licenses/osl-3.0.php">OSL</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Offer your customers interest-free credit card installment payments. Official extension.</summary>
+    <description>This extension allows ecommerce merchants to add an additional payment method to your checkout process.  A PayItSimple button is added to your website for fast and easy checkout.&lt;br /&gt;&#xD;
+It was carefully designed to meet all Magento best development practices and is compatible with all other extensions. This extension is free of charge.&lt;br /&gt;&lt;br /&gt;&#xD;
+&#xD;
+&lt;h3&gt;Signup for FREE&lt;/h3&gt;&#xD;
+&lt;a href="http://payitsimple.com/register/"&gt;Signup with PayItSimple for FREE and start offering your customers interest-free installment payments on their existing credit cards.&lt;/a&gt; &lt;br /&gt;&lt;br /&gt;</description>
+    <notes>Small improvement</notes>
+    <authors><author><name>Eric Benayoun</name><user>ericbena</user><email>ericb@payitsimple.com</email></author></authors>
+    <date>2015-01-14</date>
+    <time>21:14:52</time>
+    <contents><target name="magecommunity"><dir name="PayItSimple"><dir name="Payment"><dir name="Block"><dir name="Adminhtml"><dir name="System"><dir name="Config"><dir name="Form"><file name="Button.php" hash="1d46f9171f8b9017aff4bda66c23f160"/></dir><file name="Notification.php" hash="27ac86d84fe3927c28abc6da018736cd"/></dir></dir></dir><dir name="Form"><file name="Pis.php" hash="eb1a2b7c8b05543b8b7a6654987e86d2"/></dir><dir name="Info"><file name="Pis.php" hash="2e461d695cc1309fb8a51d33cc46c86d"/></dir></dir><dir name="Helper"><file name="Data.php" hash="1fba2ce41eb4f554e365d82424323ccd"/></dir><dir name="Model"><file name="Api.php" hash="70ff5eac35f63af69678a31033b3c341"/><file name="PisMethod.php" hash="521455c095a9c4c34459ca862e822395"/><dir name="Source"><file name="Action.php" hash="1390fb3dce78cf8eff1118df2ee5b997"/><file name="Cctype.php" hash="7f77a0c6729d0896c8ec250bb7f4fd49"/><file name="Installments.php" hash="65b727e639308cba4241662a2040d6f3"/></dir></dir><dir name="controllers"><dir name="Adminhtml"><file name="PayitsimpleController.php" hash="4e7a1a3d4dfca38656aa32da9ef70df8"/></dir><file name="PaymentController.php" hash="598f81b5afec4b73d2d14bf4a309e848"/></dir><dir name="etc"><file name="config.xml" hash="49b86a87bd29e1bd745298da08f78524"/><file name="system.xml" hash="c8afdb5921e81f4c4b70146b6d00cab1"/></dir><dir name="sql"><dir name="pis_payment_setup"><file name="mysql4-install-1.0.0.php" hash="8a7677c4ec0aa7906fabbba92efe1eed"/></dir></dir></dir></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="layout"><file name="payitsimple_notification.xml" hash="4ace8359849725965c7ad2e13bf64f07"/></dir><dir name="template"><dir name="payitsimple"><dir><dir name="system"><dir name="config"><file name="button.phtml" hash="b59617f95422a9db03aa410055066df3"/><file name="notification.phtml" hash="27ef3ed68855ba5cd8736df38229e5bf"/></dir></dir></dir></dir></dir></dir></dir></dir><dir name="frontend"><dir name="base"><dir name="default"><dir name="layout"><file name="pis_payment.xml" hash="9f0521aea108f9e3f9b9c777c6aefee3"/></dir><dir name="template"><dir name="payitsimple"><dir><dir name="form"><file name="method_faq.phtml" hash="6d64f3be6f4a8bd8c3e84a0977b46705"/><file name="pis.phtml" hash="8ffeb0feac3165202705e2b120f2db83"/></dir></dir><file name="help.phtml" hash="78a8c27a89e6a64c2b4a8222ccbc0349"/><file name="terms.phtml" hash="6dd4a1a66a29edbb6deaede13c3f159e"/></dir></dir></dir></dir></dir></target><target name="mage"><dir name="app"><dir name="etc"><dir name="modules"><file name="PayItSimple_Payment.xml" hash="608e164d747a215efa2cf4d062693236"/></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.3.8</min><max>5.6.0</max></php></required></dependencies>
+</package>
