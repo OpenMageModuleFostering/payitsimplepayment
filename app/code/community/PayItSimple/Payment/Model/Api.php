@@ -170,10 +170,10 @@ class PayItSimple_Payment_Model_Api extends Mage_Core_Model_Abstract
             3 => 'In process',
             4 => 'Installment plan finished',
             5 => 'Plan cancelled by the customer (during the wizard)',
-            6 => 'Installment plan finished and cleared by SplitIt',
+            6 => 'Installment plan finished and cleared by Splitit',
             7 => 'Pending customer credit card replacement',
             8 => 'Plan frozen (only authorizations continues)',
-            9 => 'Plan cancelled by the merchant or by SplitIt',
+            9 => 'Plan cancelled by the merchant or by Splitit',
         );
     }
 

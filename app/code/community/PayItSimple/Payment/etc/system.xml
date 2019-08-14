@@ -4,12 +4,12 @@
         <payment>
             <groups>
                 <pis_cc translate="label">
-                    <label>SplitIt Payment Settings</label>
+                    <label>Splitit Payment Settings</label>
                     <sort_order>670</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
-                    <comment><![CDATA[<a href="https://www.splitit.com/register?source=magento_plugin_config_page" target="_blank">Click here to sign up for a SplitIt account</a>]]></comment>
+                    <comment><![CDATA[<a href="https://www.splitit.com/register?source=magento_plugin_config_page" target="_blank">Click here to sign up for a Splitit account</a>]]></comment>
                     <fields>
                         <active translate="label">
                             <label>Enabled</label>
